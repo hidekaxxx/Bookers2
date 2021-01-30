@@ -1,0 +1,53 @@
+<main>
+  <div class="container px-5 px-sm-0">
+    <div class="row">
+      <div class="col-md-3">
+        <h1>User info</h1>
+        <%= attachment_image_tag @user, :profile_image,fallback: "noimage.jpg", size: '100x100' %>
+        <table class="table font-weight-bold">
+          <tr>
+            <td>name</td>
+            <td><%= @user.name %></td>
+          </tr>
+          <tr>
+            <td>introduction</td>
+            <td><%= @user.introduction %></td>
+          </tr>
+        </table>
+          <%= link_to edit_user_path(@user.id), class: "btn btn-outline-dark btn-block my-3" do %>
+          <i class="fas fa-user-cog"></i>
+          <% end %>
+
+        <h2>New book</h2>
+        <%= form_with model: @book, url: books_path, method: :post, local: true do |f| %>
+          <p>Title</p>
+          <%= f.text_field :title %>
+          <p class="mt-2">Opinion</p>
+          <%= f.text_area :body %>
+          <%= f.submit "Create Book", :class => "btn btn-success my-3" %>
+        <% end %>
+      </div>
+      <div class="col-md-8 offset-md-1">
+        <h2>Book detail</h2>
+        <table class="table">
+          <tbody>
+            <tr>
+              <td>
+                  <%= link_to user_path(@bookpost.user_id) do %>
+                   <%= attachment_image_tag @bookpost.user, :profile_image,fallback: "noimage.jpg", size: '50x50' %></br>
+                   <%= @bookpost.user.name %>
+                  <% end %>
+              </td>
+              <td><%= link_to @bookpost.title, book_path(@bookpost.id) %></td>
+              <td><%= @bookpost.body %></td>
+              <% if @user.id == current_user.id %>
+              <td><%= link_to edit_book_path(@bookpost.id), class: "btn btn-success" do %>Edit<% end %></td>
+              <td><%= link_to book_path(@bookpost.id), method: :delete, class: "btn btn-danger", data: { confirm: "本当に消しますか？" } do %>Destroy<% end %></td>
+              <% end %>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>

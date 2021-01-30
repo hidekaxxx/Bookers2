@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookers2App</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <header>
+         <nav class="navbar navbar-expand navbar-dark bg-dark font-weight-bold">
+         <div class="container">
+         <a href="/" class="navbar-brand text-light">Bookers</a>
+         <button class="navbar-toggler" data-toggle="collapase" data-target="#menu">
+           <span class="navbar-toggler-icon"></span>
+         </button>
+         <div id="menu" class="collapse navbar-collapse">
+          <ul class="navbar-nav ml-auto">
+          <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to user_path(current_user.id), class: "nav-link text-light" do %><i class="fas fa-home"></i> Home <% end %></li>
+          <li class="nav-item"><%= link_to users_path, class: "nav-link text-light" do %><i class="fas fa-users"></i> Users <% end %></li>
+          <li class="nav-item"><%= link_to books_path, class: "nav-link text-light" do %><i class="fas fa-book-open"></i> Books<% end %></li>
+          <li class="nav-item"><%= link_to destroy_user_session_path, method: :delete, class: "nav-link text-light" do %><i class="fas fa-sign-out-alt"></i> logout<% end %></li>
+          <% else %>
+          <li class="nav-item"><%= link_to root_path, class: "nav-link text-light" do %><i class="fas fa-home"></i> Home<% end %></li>
+          <li class="nav-item"><%= link_to home_about_path, class: "nav-link text-light" do %><i class="fas fa-link"></i> About<% end %></li>
+          <li class="nav-item"><%= link_to new_user_registration_path, class: "nav-link text-light" do %><i class="fas fa-user-plus"></i> sign up<% end %></li>
+          <li class="nav-item"><%= link_to new_user_session_path, class: "nav-link text-light" do %><i class="fas fa-sign-in-alt"></i> login<% end %></li>
+          <% end %>
+          </ul>
+         </div>
+         </div>
+      </nav>
+    </header>
+    <div class="flash-message">
+    <% flash.each do |message_type, message| %>
+    <%= content_tag :div, message, class: message_type %>
+    <% end %>
+    </div>
+    <%= yield %>
+    <footer>
+      <p class="footermessage">CopyRight Infratop.inc</p>
+    </footer>
+  </body>
+</html>
